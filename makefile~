@@ -57,6 +57,7 @@ report: jacoco.exec
 
 clean:
 	@rm -f  $(BINDIR)/*.class
+	@rm -f  $(BINDIR)/dictionary/*.class
 	@rm -f jacoco.exec *.xml *.csv
 	@rm -Rf coveragereport
 	@rm -Rf doc

@@ -35,7 +35,6 @@ public class LPHashTable extends AbstractHashTable {
       {
          hash = hash++;
          hash = hash%end;
-	 incProbeCount();
       }//end while loop
       
       //checks to see if it equals word

@@ -98,7 +98,7 @@ public class SCHashTable extends AbstractHashTable {
 	{
 		if (entry.getWord.equals(word))//word same as word therefore get definition
 		{
-			entry.getDefinitions();
+			return entry.getDefinitions();
 		}//end if
 		else if (entry.getNext() != null)//word in there but not the word looking for
 		{
@@ -106,7 +106,7 @@ public class SCHashTable extends AbstractHashTable {
 		}//end elseif
 		else 
 		{
-			return null;
+			return null; 
 		}//end else
 	}//end for loop
     }//end getDefinitions

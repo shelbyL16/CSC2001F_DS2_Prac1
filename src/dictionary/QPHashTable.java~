@@ -20,10 +20,10 @@ public class QPHashTable extends AbstractHashTable {
       super(size); 
     }//end QPHashTableSize    
     
-      protected int findIndex(String word)
-      {
+	protected int findIndex(String word)
+   {
       //create hash address
-      int hash = hashFunction(word);
+		int hash = hashFunction(word);
       int end = table.length;
       int i = 0;
       
@@ -40,7 +40,6 @@ public class QPHashTable extends AbstractHashTable {
          hash = hash+(i*i);
          i++;
          hash = hash%len;
-	 incProbeCount();
       }//end while loop
       
       //checks to see if it equals word
