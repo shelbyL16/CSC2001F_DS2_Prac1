@@ -93,6 +93,7 @@ public abstract class AbstractHashTable  extends Monitorable implements Dictiona
             Entry e = new Entry(word);
             table[index] = e;
             table[index].addDefinition(definition);
+	    entries++;
         }//end check table full
         
         else if (table[index].getWord().equals(word))
@@ -104,7 +105,7 @@ public abstract class AbstractHashTable  extends Monitorable implements Dictiona
 
     public boolean isEmpty() { return entries == 0; }
     
-    public void empty() { this.table = new Entry[this.table.length]; this.entries=0; }
+    public void empty() { this.table = new Entry[this.table.length];this.entries = 0;  }
     
     public int size() { return this.entries; }
     

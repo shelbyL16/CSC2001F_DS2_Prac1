@@ -1,4 +1,5 @@
 package dictionary;
+import java.util.ArrayList;
 import java.util.List;
 /**
  * Simple hash table implementation of Dictionary using sequential chaining.
@@ -6,10 +7,13 @@ import java.util.List;
  * @author Shelby Labuschagne
  * @version 07/4/2016
  */
+//make file
 public class SCHashTable extends AbstractHashTable {
 	
     protected ChainedEntry[] table;
+    
     //Create an SCHashTable with DEFAULT_SIZE table. 
+    public int entries = 0; 
     public SCHashTable() 
     { 
       this(DEFAULT_SIZE);
@@ -21,36 +25,23 @@ public class SCHashTable extends AbstractHashTable {
     { 
       this.table = new ChainedEntry[size];
       this.entries = 0; 
+	incProbeCount();
     }//end SCHashTableSize    
     
-	public int tableSize()
-	{
-		return table.length();
-	}//end overriding table size
+    public int tableSize()
+    {
+	return table.length;
+    }//end overriding table size
 
     protected int findIndex(String word)
-    {
-	//create hash address
-	int hash = hashFunction(word);
-	int i =0;
-	
-	//create a chainedentry	
-	ChainedEntry entry = table[hash];
-
-	while (entry != null)
-	{
-		if (!entry.getWord().equals(word))
-		{
-			entry.getNext();
-			i++;
-			incProbeCount();
-		}//end if 
-		else 
-		    return i;	
-	}//end null
-	
-	//next free slot
-   	return i+1;
+    {	
+	int hash = -1;
+	if (word != null)
+	{	
+		//create hash address
+		hash = hashFunction(word);
+	}//end word null if 
+   	return hash;
     }//end findindex
    
 //overriding methods
@@ -61,28 +52,39 @@ public class SCHashTable extends AbstractHashTable {
     {
 	//get hash
 	int hash = hashFunction(word);
-	//chained entry  with this hash at the space
-	ChainedEntry entry = table[hash];
+	
+	
 	boolean answer = false;
 	
 	//find index
-	int position = this.findIndex(word);
+	int position = findIndex(word);
+	//chained entry  with this hash at the space
+	ChainedEntry entry = table[position];
 
 	if (entry != null)
 	{
+		//one entry equals the current word
+		if (entry.getWord().equals(word))
+		{
+			answer = true;
+		}//end if equals
+		
 		//need to loop through the chain entries
 		while (entry.getNext() != null)
 		{
 			if (entry.getWord().equals(word))//if at pos is the same as the current word
 			{
 				answer= true;
+				break;
 			}//end if
-			else 
-			{
-				answer= false; 
-			}//end else
 			entry=entry.getNext();
 		}//end while
+
+		//last  entry equals the current word
+		if (entry.getWord().equals(word))
+		{
+			answer = true;
+		}//end if equals
 	}//end if 
 	return answer;
     }//end containsWord
@@ -91,29 +93,30 @@ public class SCHashTable extends AbstractHashTable {
     {
 	//get hash
 	int hash = hashFunction(word);
-	//chained entry  with this hash at the space
-	ChainedEntry entry = table[hash];
-	
+	//create a list
+	List<Definition> defs = new ArrayList<Definition>();
 	//find position
         int position = findIndex(word);
+	//chained entry  with this position at the space
+	ChainedEntry entry = table[position];
       
-	//need to loop through the chain entries
-	for (int i = 0; i<position; i++)
+	//checks to see if word in the actual table
+	if(containsWord(word))
 	{
-		if (entry.getWord().equals(word))//word same as word therefore get definition
+		while (entry != null)
 		{
-			return entry.getDefinitions();
-		}//end if
-		else if (entry.getNext() != null)//word in there but not the word looking for
-		{
-			entry=entry.getNext();
-		}//end elseif
-		else 
-		{
-			return null;
-		}//end else
-	}//end for loop
-	return null;
+			if (entry.getWord().equals(word))//word same as word therefore get definition
+			{
+				defs = entry.getDefinitions();
+			}//end if
+			entry = entry.getNext();
+		}//end while loop
+	}//end contains word
+	else
+	{
+		return null;
+	}//End else
+	return defs;
     }//end getDefinitions
     
     public void insert(String word, Definition definition) 
@@ -121,31 +124,56 @@ public class SCHashTable extends AbstractHashTable {
         //create hash to show where it stores to
 	int hash = hashFunction(word);
 
-	//chained entry  with this hash at the space
-	ChainedEntry entry = table[hash];
+	//chained entry  with this 
 	ChainedEntry newEntry = new ChainedEntry(word);
 	
 	//find position
         int position = findIndex(word);
-      
-	//need to loop through the chain entries
-	for (int i = 0; i<position; i++)
+	ChainedEntry entry = table[position];
+
+	if (containsWord(word))
 	{
-		if (entry != null)
+		//see if word is in dictionary already, add it
+		if (entry.getWord().equals(word))
 		{
-			if (entry.getWord().equals(word))//word same as word therefore add definition
+			entry.addDefinition(definition);
+		}//end if in 	
+
+		//while there are words in the chained entry just not the right ones
+		while(entry.getNext() != null)
+		{
+			if (entry.getWord().equals(word))
 			{
 				entry.addDefinition(definition);
+				break;
 			}//end if
-			else if (entry.getWord() == null)//no word in there
+			entry = entry.getNext();
+		}//end while loop
+	}//end 
+	//if the word is not in the dictionary at all
+		if (containsWord(word) == false)
+		{
+			if (table[position] == null)//nuthing there, then add it
 			{
-				newEntry = entry;
+				table[position] = newEntry;
 				newEntry.addDefinition(definition);
-			}//end elseif
-		}//end if 
-	}//end for loop
+				entries = entries +1;
+			}//end if 
+			else//sumtin there add it
+			{
+				entry = table[position];
+				entry = new ChainedEntry(word,entry);
+				table[position] = entry;
+				entry.addDefinition(definition);
+				entries = entries +1;
+				
+			}//end else
+		}//end else if
     }//end insert
 
+
+//these methods are fine
+//_________________________________________________________________________________________________________________________________
     //overides previous dump in AbstractHashTable-Method provided to facilitate testing and debugging.
     @Override
 	public void dump() 
@@ -169,5 +197,22 @@ public class SCHashTable extends AbstractHashTable {
 		}//end for 
 		System.out.printf("\n#Entries: %d.", this.entries);
 	}//end dump
+
+    //Generate a hash code for the given key using algorithm in Weiss. (For use by sub classes.)
+    protected int hashFunction(String key) 
+    {
+         int hashVal = 0;
+    
+         for(int i = 0; i<key.length(); i++) 
+             hashVal = 37 * hashVal+key.charAt(i);
+         
+         hashVal %= table.length;
+    
+         if (hashVal < 0 ) 
+         {
+            hashVal+=table.length;
+         }//end if 
+    return hashVal; 
+    }
 	
 }//end class

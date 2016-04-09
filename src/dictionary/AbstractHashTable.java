@@ -6,6 +6,7 @@ import java.util.List;
  * @author Stephan Jamieson 
  * @version 24/4/2015
  */
+	//try
 public abstract class AbstractHashTable  extends Monitorable implements Dictionary {
     public final static int DEFAULT_SIZE = 50;
  
@@ -105,7 +106,7 @@ public abstract class AbstractHashTable  extends Monitorable implements Dictiona
 
     public boolean isEmpty() { return entries == 0; }
     
-    public void empty() { this.table = new Entry[this.table.length]; this.entries=0; }
+    public void empty() { this.table = new Entry[this.table.length];this.entries = 0;  }
     
     public int size() { return this.entries; }
     

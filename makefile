@@ -43,7 +43,7 @@ doc:
 	javadoc -d $(DOCDIR) $(SRCDIR)/dictionary/*.java $(TESTDIR)/*.java
 
 # Rules for unit testing
-test_classes: all LoadTest.class
+test_classes: all LoadTest.class TestSuite.class SearchTest.class
 
 test: test_classes
 	java -ea -cp $(BINDIR):$(JUNIT) org.junit.runner.JUnitCore TestSuite
