@@ -20,35 +20,44 @@ public class LPHashTable extends AbstractHashTable {
       super(size); 
     }//end LPHashTableSize    
     
-	protected int findIndex(String word)
+   protected int findIndex(String word)
    {
+      //create general variable declarations
+      int answerInt = -1;
+      boolean answerBool = false;
+      int count = 0; 
+
       //create hash address
-		int hash = hashFunction(word);
-      int end = table.length;
+      int hash = hashFunction(word);
       
-      //check to see if table full
-      if (this.loadFactor() == 1)
-         return -1;
-      
-      //check to see if it is already full,if full continue
-      while (!table[hash].getWord().equals(word) && table[hash] != null)
-      {
-         hash = hash++;
-         hash = hash%end;
-	 incProbeCount();
-      }//end while loop
-      
-      //checks to see if it equals word
-      if (table[hash].getWord().equals(word))
-      {
-         return hash;
-      }//end if
-      
-      //if null (ie clustering over) or end
-      else if (table[hash] == null)
-      {
-         return -1;
-      }//end else if 
-      return 0;
-	}//end findindex
+       if (word != null)
+       {
+	      for (Entry entry : table)
+	      {
+			if (entry != null)
+			{
+				if (entry.getWord().equals(word))	
+				{
+					answerInt = count;
+					answerBool = true;
+					break;
+				}//end if equals
+			}//end if 
+			count = count +1;
+	      }//end for loop
+
+		if (answerBool == false)
+		{
+		while (table[hash] != null)
+		{
+			hash = hash+1;
+			hash = hash % table.length;
+			incProbeCount();
+		}//end while loop
+		answerInt = hash;
+		}//end if
+      }//end word null
+	return answerInt;
+   }//end findindex
+
 }//end class

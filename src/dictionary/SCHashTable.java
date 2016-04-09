@@ -7,7 +7,8 @@ import java.util.List;
  * @version 07/4/2016
  */
 public class SCHashTable extends AbstractHashTable {
-
+	
+    protected ChainedEntry[] table;
     //Create an SCHashTable with DEFAULT_SIZE table. 
     public SCHashTable() 
     { 
@@ -30,7 +31,7 @@ public class SCHashTable extends AbstractHashTable {
 	int i =0;
 	
 	//create a chainedentry	
-	ChainedEntry entry = table[hash].getNext();
+	ChainedEntry entry = table[hash];
 
 	while (entry != null)
 	{
@@ -60,27 +61,29 @@ public class SCHashTable extends AbstractHashTable {
 	//get hash
 	int hash = hashFunction(word);
 	//chained entry  with this hash at the space
-	ChainedEntry entry = table[hash].getEntry();
+	ChainedEntry entry = table[hash];
+	boolean answer = false;
 	
 	//find index
 	int position = this.findIndex(word);
 
-	//need to loop through the chain entries
-	for (int i = 0; i<position; i++)
+	if (entry != null)
 	{
-		if (entry.getWord.equals(word))//if at pos is the same as the current word
+		//need to loop through the chain entries
+		while (entry.getNext() != null)
 		{
-			return true;
-		}//end if
-		else if (entry.getNext() != null)//word in there but not the word looking for
-		{
+			if (entry.getWord().equals(word))//if at pos is the same as the current word
+			{
+				answer= true;
+			}//end if
+			else 
+			{
+				answer= false; 
+			}//end else
 			entry=entry.getNext();
-		}//end elseif
-		else 
-		{
-			return false; 
-		}//end else
-	}//end for loop
+		}//end while
+	}//end if 
+	return answer;
     }//end containsWord
     
     public List<Definition> getDefinitions(String word) 
@@ -96,9 +99,9 @@ public class SCHashTable extends AbstractHashTable {
 	//need to loop through the chain entries
 	for (int i = 0; i<position; i++)
 	{
-		if (entry.getWord.equals(word))//word same as word therefore get definition
+		if (entry.getWord().equals(word))//word same as word therefore get definition
 		{
-			entry.getDefinitions();
+			return entry.getDefinitions();
 		}//end if
 		else if (entry.getNext() != null)//word in there but not the word looking for
 		{
@@ -109,6 +112,7 @@ public class SCHashTable extends AbstractHashTable {
 			return null;
 		}//end else
 	}//end for loop
+	return null;
     }//end getDefinitions
     
     public void insert(String word, Definition definition) 
@@ -116,7 +120,7 @@ public class SCHashTable extends AbstractHashTable {
         //get hash
 	int hash = hashFunction(word);
 	//chained entry  with this hash at the space
-	ChainedEntry entry = table[hash].getNext();
+	ChainedEntry entry = table[hash];
 	ChainedEntry newEntry = new ChainedEntry(word);
 	
 	//find position
@@ -125,19 +129,15 @@ public class SCHashTable extends AbstractHashTable {
 	//need to loop through the chain entries
 	for (int i = 0; i<position; i++)
 	{
-		if (entry.getWord.equals(word))//word same as word therefore add definition
+		if (entry.getWord().equals(word))//word same as word therefore add definition
 		{
-			entry.addDefinitions(definition);
+			entry.addDefinition(definition);
 		}//end if
 		else if (entry.getNext() == null)//no word in there
 		{
 			entry = newEntry;
 			newEntry.addDefinition(definition);
 		}//end elseif
-		else 
-		{
-			return null; 
-		}//end else
 	}//end for loop
     }//end insert
 
