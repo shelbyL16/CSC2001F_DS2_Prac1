@@ -23,6 +23,10 @@ public class SCHashTable extends AbstractHashTable {
       this.entries = 0; 
     }//end SCHashTableSize    
     
+	public int tableSize()
+	{
+		return table.length();
+	}//end overriding table size
 
     protected int findIndex(String word)
     {
@@ -49,9 +53,6 @@ public class SCHashTable extends AbstractHashTable {
    	return i+1;
     }//end findindex
    
-
-
-
 //overriding methods
 //----------------------------------------------------------------------------------------------------------------------------------
 	
@@ -101,7 +102,7 @@ public class SCHashTable extends AbstractHashTable {
 	{
 		if (entry.getWord().equals(word))//word same as word therefore get definition
 		{
-			entry.getDefinitions();
+			return entry.getDefinitions();
 		}//end if
 		else if (entry.getNext() != null)//word in there but not the word looking for
 		{
@@ -112,12 +113,14 @@ public class SCHashTable extends AbstractHashTable {
 			return null;
 		}//end else
 	}//end for loop
+	return null;
     }//end getDefinitions
     
     public void insert(String word, Definition definition) 
     {   
-        //get hash
+        //create hash to show where it stores to
 	int hash = hashFunction(word);
+
 	//chained entry  with this hash at the space
 	ChainedEntry entry = table[hash];
 	ChainedEntry newEntry = new ChainedEntry(word);
@@ -128,32 +131,43 @@ public class SCHashTable extends AbstractHashTable {
 	//need to loop through the chain entries
 	for (int i = 0; i<position; i++)
 	{
-		if (entry.getWord().equals(word))//word same as word therefore add definition
+		if (entry != null)
 		{
-			entry.addDefinition(definition);
-		}//end if
-		else if (entry.getNext() == null)//no word in there
-		{
-			entry = newEntry;
-			newEntry.addDefinition(definition);
-		}//end elseif
+			if (entry.getWord().equals(word))//word same as word therefore add definition
+			{
+				entry.addDefinition(definition);
+			}//end if
+			else if (entry.getWord() == null)//no word in there
+			{
+				newEntry = entry;
+				newEntry.addDefinition(definition);
+			}//end elseif
+		}//end if 
 	}//end for loop
     }//end insert
 
     //overides previous dump in AbstractHashTable-Method provided to facilitate testing and debugging.
-    public void dump() 
-    {
-        ChainedEntry[] table = this.table;
-	ChainedEntry e = table[0].getNext();
-        
-        for(int i=0; i<table.length; i++)
-        {
-            while(e.getNext() != null)
+    @Override
+	public void dump() 
+	{
+		ChainedEntry[] table = this.table;
+		for(int i=0; i<tableSize(); i++) 
 		{
-			System.out.printf("\n4%d : %s", i , e);
-			e =e.getNext();
-		}//end while loop
-        }//end for loop
-        System.out.printf("\n#Entries: %d.", this.entries);
-    }//end dump
+			if (table[i]==null) 
+			{
+				System.out.printf("\n%6d : %s", i, table[i]);
+			}//end if 
+			else 
+			{
+				ChainedEntry entry = table[i];
+				while (entry!=null) 
+				{
+					System.out.printf("\n%6d : %s", i, entry);
+					entry = entry.getNext();
+				}//end while
+			}//end else
+		}//end for 
+		System.out.printf("\n#Entries: %d.", this.entries);
+	}//end dump
+	
 }//end class
