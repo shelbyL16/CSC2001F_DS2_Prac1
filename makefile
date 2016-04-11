@@ -37,6 +37,12 @@ all: WordType.class \
 	QPHashTable.class \
 	SCHashTable.class \
 	Loader.class \
+	DataReader.class \
+	Nonsense.class \
+	PrimeSequence.class \
+	Randomizer.class \
+	LoadTest.class \
+	SearchTest.class
 
 # Rules for generating documentation
 doc:

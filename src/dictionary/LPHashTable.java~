@@ -22,6 +22,7 @@ public class LPHashTable extends AbstractHashTable {
     
    protected int findIndex(String word)
    {
+    System.out.println("no");
       //create general variable declarations
       int answerInt = -1;
       boolean answerBool = false;
@@ -34,17 +35,17 @@ public class LPHashTable extends AbstractHashTable {
        {
 	      for (Entry entry : table)
 	      {
-		if (entry != null)
-		{
-			if (entry.getWord().equals(word))	
+			if (entry != null)
 			{
-				answerInt = count;
-				answerBool = true;
-				break;
-			}//end if equals
-		}//end if 
-		count = count +1;
-		}//end for loop
+				if (entry.getWord().equals(word))	
+				{
+					answerInt = count;
+					answerBool = true;
+					break;
+				}//end if equals
+			}//end if 
+			count = count +1;
+	      }//end for loop
 
 		if (answerBool == false)
 		{
@@ -53,6 +54,11 @@ public class LPHashTable extends AbstractHashTable {
 			hash = hash+1;
 			hash = hash % table.length;
 			incProbeCount();
+            //breaking the stuck while loop
+            if(hash == hashFunction(word))
+            {
+                break;
+            }//end while
 		}//end while loop
 		answerInt = hash;
 		}//end if

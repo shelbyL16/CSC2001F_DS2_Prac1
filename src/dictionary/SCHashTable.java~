@@ -13,7 +13,6 @@ public class SCHashTable extends AbstractHashTable {
     protected ChainedEntry[] table;
     
     //Create an SCHashTable with DEFAULT_SIZE table. 
-    public int entries = 0; 
     public SCHashTable() 
     { 
       this(DEFAULT_SIZE);
@@ -24,7 +23,7 @@ public class SCHashTable extends AbstractHashTable {
     public SCHashTable(int size) 
     { 
       this.table = new ChainedEntry[size];
-      this.entries = 0; 
+      super.entries = 0; 
 	incProbeCount();
     }//end SCHashTableSize    
     
@@ -108,15 +107,12 @@ public class SCHashTable extends AbstractHashTable {
 			if (entry.getWord().equals(word))//word same as word therefore get definition
 			{
 				defs = entry.getDefinitions();
+				return defs;
 			}//end if
 			entry = entry.getNext();
 		}//end while loop
 	}//end contains word
-	else
-	{
-		return null;
-	}//End else
-	return defs;
+	return null;
     }//end getDefinitions
     
     public void insert(String word, Definition definition) 

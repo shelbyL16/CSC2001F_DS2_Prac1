@@ -16,12 +16,13 @@ public class LoadTest
         return intConstructor.newInstance(tableSize);
     }//end
     
-    public static void main(final String[] args) throws Exception 
+    public static void main(final String[] args) throws Exception
     {
         // Create a dictionary object from the class name and table size given as command line arguments.
         final AbstractHashTable table = createTable(args[0], Integer.parseInt(args[1]));
         final Loader loader = new Loader(table);
 
+	//this is the code I added
         loader.load(new File ("data/" +args[2]));
 	table.dump();
 	int probes = table.getProbeCount();

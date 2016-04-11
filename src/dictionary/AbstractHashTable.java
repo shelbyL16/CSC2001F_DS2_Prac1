@@ -82,11 +82,10 @@ public abstract class AbstractHashTable  extends Monitorable implements Dictiona
     {   
         //calls hash function     
         int index = findIndex(word);
-        
         //check full table
         if (index == -1)
         {
-            rebuild();
+            //rebuild();
         }//end check table full
         
         else if (table[index] == null)

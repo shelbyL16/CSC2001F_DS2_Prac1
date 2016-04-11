@@ -26,7 +26,7 @@ public class QPHashTable extends AbstractHashTable {
 	      int answerInt = -1;
 	      boolean answerBool = false;
 	      int count = 0; 
-	      int fibonacci = 0;
+	      int fibonacci = 1;
 
 	      //create hash address
 	      int hash = hashFunction(word);
@@ -51,10 +51,12 @@ public class QPHashTable extends AbstractHashTable {
 			{
 			while (table[hash] != null)
 			{
-				hash = hash+ (fibonacci*fibonacci);
+				hash = hash - ((fibonacci-1)*(fibonacci-1));
+				hash = hash + (fibonacci*fibonacci);
 				hash = hash % table.length;
 				incProbeCount();
 				fibonacci = fibonacci+1;
+				
 			}//end while loop
 			answerInt = hash;
 			}//end if

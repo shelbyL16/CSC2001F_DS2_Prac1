@@ -56,7 +56,12 @@ public class QPHashTable extends AbstractHashTable {
 				hash = hash % table.length;
 				incProbeCount();
 				fibonacci = fibonacci+1;
-				
+            
+                 //breaking the stuck while loop
+                if(fibonacci <= table.length)
+                {
+                    break;
+                }//end while
 			}//end while loop
 			answerInt = hash;
 			}//end if

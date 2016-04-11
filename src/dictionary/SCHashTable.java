@@ -107,27 +107,24 @@ public class SCHashTable extends AbstractHashTable {
 			if (entry.getWord().equals(word))//word same as word therefore get definition
 			{
 				defs = entry.getDefinitions();
+				return defs;
 			}//end if
 			entry = entry.getNext();
 		}//end while loop
 	}//end contains word
-	else
-	{
-		return null;
-	}//End else
-	return defs;
+	return null;
     }//end getDefinitions
     
     public void insert(String word, Definition definition) 
     {   
         //create hash to show where it stores to
-	int hash = hashFunction(word);
+	    int hash = hashFunction(word);
 
 	//chained entry  with this 
 	ChainedEntry newEntry = new ChainedEntry(word);
 	
 	//find position
-        int position = findIndex(word);
+    int position = findIndex(word);
 	ChainedEntry entry = table[position];
 
 	if (containsWord(word))

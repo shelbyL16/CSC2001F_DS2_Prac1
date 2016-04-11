@@ -6,6 +6,7 @@ import java.util.List;
  * @author Stephan Jamieson 
  * @version 24/4/2015
  */
+	//try
 public abstract class AbstractHashTable  extends Monitorable implements Dictionary {
     public final static int DEFAULT_SIZE = 50;
  
@@ -81,7 +82,6 @@ public abstract class AbstractHashTable  extends Monitorable implements Dictiona
     {   
         //calls hash function     
         int index = findIndex(word);
-        
         //check full table
         if (index == -1)
         {
