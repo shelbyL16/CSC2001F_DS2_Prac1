@@ -22,7 +22,7 @@ public class LPHashTable extends AbstractHashTable {
     
    protected int findIndex(String word)
    {
-    System.out.println("no");
+    
       //create general variable declarations
       int answerInt = -1;
       boolean answerBool = false;
@@ -41,7 +41,8 @@ public class LPHashTable extends AbstractHashTable {
 				{
 					answerInt = count;
 					answerBool = true;
-					break;
+                    
+					//break;
 				}//end if equals
 			}//end if 
 			count = count +1;

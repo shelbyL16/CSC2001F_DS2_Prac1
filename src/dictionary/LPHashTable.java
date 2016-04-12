@@ -41,7 +41,8 @@ public class LPHashTable extends AbstractHashTable {
 				{
 					answerInt = count;
 					answerBool = true;
-					break;
+                    
+					//break;
 				}//end if equals
 			}//end if 
 			count = count +1;

@@ -41,7 +41,7 @@ public class QPHashTable extends AbstractHashTable {
 					{
 						answerInt = count;
 						answerBool = true;
-						break;
+						//break;
 					}//end if equals
 				}//end if 
 				count = count +1;
@@ -58,7 +58,7 @@ public class QPHashTable extends AbstractHashTable {
 				fibonacci = fibonacci+1;
             
                  //breaking the stuck while loop
-                if(fibonacci <= table.length)
+                if(fibonacci == table.length)
                 {
                     break;
                 }//end while

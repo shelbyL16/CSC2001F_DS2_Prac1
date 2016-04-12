@@ -24,7 +24,7 @@ public class SCHashTable extends AbstractHashTable {
     { 
       this.table = new ChainedEntry[size];
       super.entries = 0; 
-	incProbeCount();
+	//incProbeCount();
     }//end SCHashTableSize    
     
     public int tableSize()
@@ -52,7 +52,6 @@ public class SCHashTable extends AbstractHashTable {
 	//get hash
 	int hash = hashFunction(word);
 	
-	
 	boolean answer = false;
 	
 	//find index
@@ -71,7 +70,8 @@ public class SCHashTable extends AbstractHashTable {
 		//need to loop through the chain entries
 		while (entry.getNext() != null)
 		{
-			if (entry.getWord().equals(word))//if at pos is the same as the current word
+            incProbeCount();			
+            if (entry.getWord().equals(word))//if at pos is the same as the current word
 			{
 				answer= true;
 				break;
@@ -104,13 +104,22 @@ public class SCHashTable extends AbstractHashTable {
 	{
 		while (entry != null)
 		{
-			if (entry.getWord().equals(word))//word same as word therefore get definition
+		    incProbeCount();	
+            if (entry.getWord().equals(word))//word same as word therefore get definition
 			{
 				defs = entry.getDefinitions();
 				return defs;
 			}//end if
 			entry = entry.getNext();
+
+            if (entry == null)
+			{
+				defs = entry.getDefinitions();
+                return defs;
+				//break;
+			}//end if
 		}//end while loop
+            
 	}//end contains word
 	return null;
     }//end getDefinitions
@@ -118,13 +127,13 @@ public class SCHashTable extends AbstractHashTable {
     public void insert(String word, Definition definition) 
     {   
         //create hash to show where it stores to
-	int hash = hashFunction(word);
+	    int hash = hashFunction(word);
 
 	//chained entry  with this 
 	ChainedEntry newEntry = new ChainedEntry(word);
 	
 	//find position
-        int position = findIndex(word);
+    int position = findIndex(word);
 	ChainedEntry entry = table[position];
 
 	if (containsWord(word))
@@ -138,6 +147,7 @@ public class SCHashTable extends AbstractHashTable {
 		//while there are words in the chained entry just not the right ones
 		while(entry.getNext() != null)
 		{
+            incProbeCount();
 			if (entry.getWord().equals(word))
 			{
 				entry.addDefinition(definition);
@@ -145,6 +155,7 @@ public class SCHashTable extends AbstractHashTable {
 			}//end if
 			entry = entry.getNext();
 		}//end while loop
+        
 	}//end 
 	//if the word is not in the dictionary at all
 		if (containsWord(word) == false)

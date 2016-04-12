@@ -26,7 +26,10 @@ public class LoadTest
         loader.load(new File ("data/" +args[2]));
 	table.dump();
 	int probes = table.getProbeCount();
-	System.out.println("\n" + probes);
+    System.out.println();
+	System.out.println("Probes " + probes);
+    double lf = table.loadFactor();
+	System.out.println("Load Factor " + lf);
     }//end 
     
     
