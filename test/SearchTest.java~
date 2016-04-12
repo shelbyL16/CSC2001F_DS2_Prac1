@@ -82,6 +82,6 @@ public class SearchTest
 
     	System.out.println("This is your test for: " + args[0]);
     	System.out.println("Total Probes per sample given: " + total);
-    	System.out.println("Average Probes " + (total)/(((Integer.parseInt(args[3])))));
+    	System.out.println("Average Probes " + (total)/(((Integer.parseInt(args[4])))));
     }//end main
 }//end class
