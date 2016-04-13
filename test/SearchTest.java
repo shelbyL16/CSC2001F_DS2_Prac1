@@ -53,20 +53,19 @@ public class SearchTest
         	int l = Integer.parseInt(args[3]) - k;//20% nonsense
 
             //trying to get sc to work
-            if ((args[0]).equals("dictionary.SCHashTable"))
+            /*if ((args[0]).equals("dictionary.SCHashTable"))
             {
-                 String ans = "You haven't gotten this to work yet";
-                 System.out.println(ans);
                  break;
-            }//end 
+            }//end*/
   
         	for (int i = 1; i <= k; i++)
 			{
-            		table.containsWord((list.next()).getWord());
+                   if(list.hasNext()){
+            		table.containsWord((list.next()).getWord());}
         	}//end for loop
    
        		//declare nonsense
-        	Nonsense nonsense = new Nonsense(4, 7);
+        	Nonsense nonsense = new Nonsense(1, 15);
   
   			for (int i = 1; i <= l; i++)
 			{
